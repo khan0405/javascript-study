@@ -1,4 +1,4 @@
-﻿var toJSONString = (function(window, JSON) {
+var toJSONStringRecursive = (function(window, JSON) {
     var jsonString = function(obj) {
         var decorate = decorateDefault;
         if (typeof obj == 'object') {
