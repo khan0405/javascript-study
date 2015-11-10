@@ -66,6 +66,7 @@ var toJSONStringRecursive = (function(window, JSON) {
 // 나를 정말 칭찬해 주고싶다. 엄마 아빠 나 해냈어요 얏호
 // 내일은 칭찬의 의미로 나를 위해 치킨을 사겠다.
 var toJSONStringNonRecursive = (function(window, JSON) {
+  // 각 Object, array, 구분자를 뜻하는 객체를 담고있는 변수.
   var STR_VALUE = {
     arrPrefix: {str: '['},
     arrSuffix: {str: ']'},
@@ -73,7 +74,27 @@ var toJSONStringNonRecursive = (function(window, JSON) {
     objSuffix: {str: '}'},
     delimiter: {str: ','}
   };
-  var jsonString = function(obj) {
+
+  // 변환한 json 데이터들을 string으로 변환하여 내보낸다.
+  var toStringValue = function(stack) {
+    var result = '';
+    stack.forEach(function(str) {
+      result += str;
+    });
+    return result;
+  }
+
+  // object 정보를 담고있는 객체를 반환한다.
+  var stackObj = function(obj) {
+    return {o: obj};
+  }
+
+  // 기존 primitive type의 값을 반환한다.
+  var convert = function(val) {
+    return 'string' == typeof val ? '"' + val + '"' : val;
+  }
+
+  return function(obj) {
     var stack = [], // 콜스택 대용. 여기에서 prefix/suffix/delimiter 및 각 object/array/date/primitive type 정보들을 넣어준다.
         result = []; // 최종으로 string으로 변환할 것들을 여기에 넣어준다.
 
@@ -124,28 +145,5 @@ var toJSONStringNonRecursive = (function(window, JSON) {
     }
 
     return toStringValue(result);
-  }
-
-  // 변환한 json 데이터들을 string으로 변환하여 내보낸다.
-  var toStringValue = function(stack) {
-    var result = '';
-    stack.forEach(function(str) {
-      result += str;
-    });
-    return result;
-  }
-
-  // object 정보를 담고있는 객체를 반환한다.
-  var stackObj = function(obj) {
-    return {o: obj};
-  }
-
-  // 기존 primitive type의 값을 반환한다.
-  var convert = function(val) {
-    return 'string' == typeof val ? '"' + val + '"' : val;
-  }
-
-  return function(obj) {
-    return jsonString(obj);
   }
 })();
