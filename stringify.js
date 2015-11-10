@@ -3,25 +3,25 @@
  */
 var toJSONStringRecursive = (function(window, JSON) {
     var jsonString = function(obj) {
-        var decorate = decorateDefault;
-        if (typeof obj == 'object') {
+        var convert = convertDefault;
+        if (obj && typeof obj == 'object') {
             if (obj instanceof Array) {
-                decorate = decorateArray;
+                convert = convertArray;
             }
             else if (obj instanceof Date) {
-                decorate = decorateDate;
+                convert = convertDate;
             }
             else {
-                decorate = decorateObject;
+                convert = convertObject;
             }
         }
         else if (typeof obj == 'string') {
-            decorate = decorateString;
+            convert = convertString;
         }
-        return decorate(obj);
+        return convert(obj);
     };
 
-    var decorateObject = function(obj) {
+    var convertObject = function(obj) {
         var result = "{";
 
         var keys = Object.keys(obj);
@@ -33,7 +33,7 @@ var toJSONStringRecursive = (function(window, JSON) {
         return result + "}";
     };
 
-    var decorateArray = function(obj) {
+    var convertArray = function(obj) {
         var result = "[";
 
         for (var i = 0; i < obj.length; i++) {
@@ -42,13 +42,13 @@ var toJSONStringRecursive = (function(window, JSON) {
         }
         return result + "]";
     };
-    var decorateDate = function(obj) {
-        return decorateString(dd.toJSON());
+    var convertDate = function(obj) {
+        return convertString(dd.toJSON());
     };
-    var decorateString = function (obj) {
+    var convertString = function (obj) {
         return '"' + obj + '"';
     };
-    var decorateDefault = function (obj) {
+    var convertDefault = function (obj) {
         return obj;
     };
 
