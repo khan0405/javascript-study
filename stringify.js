@@ -18,6 +18,9 @@ var toJSONStringRecursive = (function(window, JSON) {
         else if (typeof obj == 'string') {
             convert = convertString;
         }
+        else if (obj == undefined) {
+            obj = null;
+        }
         return convert(obj);
     };
 
@@ -85,17 +88,13 @@ var toJSONStringNonRecursive = (function(window, JSON) {
         result.push(next.str);
       }
       // primitive value인 경우, 해당 값을 result값에 넣는다.
-      else if (typeof o != 'object') {
+      else if (!o || typeof o != 'object') {
         if (o === undefined) o = null;
-        result.push(decoration(o));
-      }
-      // null 값인 경우;;;
-      else if (o == null) {
-        result.push(decoration(null));
+        result.push(convert(o));
       }
       // date인 경우, 해당 값의 JSON 매핑값을 result값에 넣는다.
       else if (o instanceof Date) {
-        result.push(decoration(o.toJSON()));
+        result.push(convert(o.toJSON()));
       }
       // Array인 경우 해당 값들을 stack에 먼저 넣는다.
       else if (o instanceof Array) {
@@ -142,7 +141,7 @@ var toJSONStringNonRecursive = (function(window, JSON) {
   }
 
   // 기존 primitive type의 값을 반환한다.
-  var decoration = function(val) {
+  var convert = function(val) {
     return 'string' == typeof val ? '"' + val + '"' : val;
   }
 
