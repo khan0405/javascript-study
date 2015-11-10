@@ -5,11 +5,14 @@
             if (obj instanceof Array) {
                 decorate = decorateArray;
             }
+            else if (obj instanceof Date) {
+                decorate = decorateDate;
+            }
             else {
                 decorate = decorateObject;
             }
         }
-	else if (typeof obj == 'string') {
+        else if (typeof obj == 'string') {
             decorate = decorateString;
         }
         return decorate(obj);
@@ -35,6 +38,9 @@
             result += jsonString(obj[i]);
         }
         return result + "]";
+    };
+    var decorateDate = function(obj) {
+        return decorateString(dd.toJSON());
     };
     var decorateString = function (obj) {
         return '"' + obj + '"';
