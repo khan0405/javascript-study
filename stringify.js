@@ -9,7 +9,7 @@
                 decorate = decorateObject;
             }
         }
-        else {
+	else if (typeof obj == 'string') {
             decorate = decorateString;
         }
         return decorate(obj);
