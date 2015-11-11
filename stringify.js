@@ -150,3 +150,8 @@ var toJSONStringNonRecursive = (function(window, JSON) {
     return result;
   }
 })();
+
+// json parsing
+var parseJSONString = function(v) {
+    return (new Function('', 'return ' + v.trim()))();
+}
