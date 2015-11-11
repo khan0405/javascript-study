@@ -49,7 +49,7 @@ var toJSONStringRecursive = (function(window, JSON) {
         return convertString(dd.toJSON());
     };
     var convertString = function (obj) {
-        return '"' + obj + '"';
+        return '"' + obj.replace(/"/g, '\\"') + '"';
     };
     var convertDefault = function (obj) {
         return obj;
@@ -91,7 +91,7 @@ var toJSONStringNonRecursive = (function(window, JSON) {
 
   // 기존 primitive type의 값을 반환한다.
   var convert = function(val) {
-    return 'string' == typeof val ? '"' + val + '"' : val;
+    return 'string' == typeof val ? '"' + val.replace(/"/g, '\\"') + '"' : val;
   }
 
   return function(obj) {
