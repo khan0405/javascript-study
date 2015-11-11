@@ -107,10 +107,10 @@ var toJSONStringNonRecursive = (function(window, JSON) {
     list.reverse();
     list.forEach(function(val, i) {
       if (i > 0) stack.push(STR_VALUE.delimiter);
-        o = isArray ? val : obj[val];
-        stack.push(stackObj(o));
-        !isArray && stack.push({str: '"' + val.replace(/"/g, '\\"') + '":'});
-      });
+      o = isArray ? val : obj[val];
+      stack.push(stackObj(o));
+      !isArray && stack.push({str: '"' + val.replace(/"/g, '\\"') + '":'});
+    });
     stack.push(STR_VALUE[type + 'Prefix']);
   }
 
